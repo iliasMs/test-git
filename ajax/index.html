@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script
+  src="https://code.jquery.com/jquery-3.6.0.js"
+  integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+  crossorigin="anonymous"></script>
+
+  <style>
+      p{
+          color:orange;
+      }
+      img{
+          width: 50%;
+      }
+      #loaderGif{
+          display: none;
+      }
+  </style>
+</head>
+<body>
+    <h1>Here are all the movies with the title <b>"Fast"</b></h1>
+    <input type="text" name="" id="searchInput" placeholder="Search movies by title">
+    <input type="submit" value="Search movies" onclick="searchTitles()">
+    <img id="loaderGif" src="https://i.pinimg.com/originals/45/12/4d/45124d126d0f0b6d8f5c4d635d466246.gif" alt="">
+    <div id="movieTitlesContainer">
+    </div>
+    <script>
+        
+
+        function searchTitles(){
+            // starting to download movie titles, display the loader.
+            $("#loaderGif").css("display","block");
+            
+            // get the search term the user typed in the input text field.
+            let searchTerm =  $("#searchInput").val();
+
+            // start to format the settings for the ajax call.
+            let settings = {
+                "url": "http://www.omdbapi.com/?apikey=c91e7af2&s=" + searchTerm,
+                "method": "GET",
+                "timeout": 0,
+            };
+
+            setTimeout(function(){
+                $.ajax(settings).done(function (response) {
+                $("#movieTitlesContainer").empty();
+                response.Search.forEach(movieItem => {
+                    $("#movieTitlesContainer").append("<p>"+movieItem.Title+"</p>");
+                    console.log(movieItem.Title);
+                });
+            });
+
+            $("#loaderGif").css("display","none");
+            }, 1000);
+            
+            
+        }
+
+
+    </script>
+</body>
+</html>
